@@ -9,8 +9,6 @@ export const Inclass = () => {
   const localStream = useRef();
   const [clientId, setClientId] = useState("");
   const [isJoined, setIsJoined] = useState(false);
-  const [isAudioEnabled, setIsAudioEnabled] = useState(false);
-  const [isVideoEnabled, setIsVideoEnabled] = useState(false);
   const channelId = "121212";
   const appId = "dd1bdd5406a642fea84499861dcef2e3";
 
@@ -19,13 +17,11 @@ export const Inclass = () => {
       RTCClient.current = new RTCInterface(appId, channelId, null, clientId, {
         needDualStream: true,
       });
-      const { audio, video } = await RTCClient.current.initialise();
+      const { video } = await RTCClient.current.initialise();
       if (video.isSuccess) {
         RTCClient.current.playVideo(localStream.current);
       }
       subscribeToEvents();
-      setIsAudioEnabled(audio.isSuccess);
-      setIsVideoEnabled(video.isSuccess);
     } catch (err) {
       console.error(err);
     }
